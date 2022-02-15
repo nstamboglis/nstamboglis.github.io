@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Nick, data journey begins"
+title: "On solid foundations"
 date: 2022-02-13
 ---
 
