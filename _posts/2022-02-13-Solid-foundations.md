@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "On solid foundations"
+title: "Building on solid foundations"
 date: 2022-02-13
 ---
 
