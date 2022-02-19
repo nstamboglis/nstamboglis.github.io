@@ -14,14 +14,14 @@ Here is a little secret: even experienced professionals might have their own gap
 
 In my case I come from a research background, I make frequent use of SQL in my work activities, I use extensively use R for data analysis, and I've delivered one international project in phyton. Nonetheless, I still very much feel that there is more I can do to get to the bottom of this thing called data science.
 
-So, here is a potential solution to deal with chaos: <emph>to invest into own's foundations</emph>.
+So, here is a potential solution to deal with chaos: <emph><b>to invest into own's foundations</b></emph>.
 
 This approach is, in my view, the safest one to ensure that our skills won't deprecate quickly in the fast-evolving market, while shielding oneselves from the onipresent impostor syndrome. 
 
 Ok, cool words, but what does it mean in practice? After some search online I've randomly found one post by <a href="https://www.datawithdanny.com/">Danny Ma</a> listing some key skills to learn while approaching data science from scratch. Here I'll share a slightly modified version of his list:
 
 <ul>
-  <li>SQL</li>
+  <li><p>SQL</p></li>
   <li>Git</li>
   <li>Python (as a programming language)</li>
   <li>Probability/statistics</li>
