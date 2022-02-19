@@ -22,14 +22,14 @@ Ok, cool words, but what does it mean in practice? After some search online I've
 
 <ul>
   <li><p>SQL</p></li>
-  <li>Git</li>
-  <li>Python (as a programming language)</li>
-  <li>Probability/statistics</li>
-  <li>A/B testing</li>
-  <li>Traditional ML</li>
-  <li>ML experiments</li>
-  <li>Deep learning</li>
-  <li><b>My addendum:</b> cloud technologies, leadership and communication skills</li>
+  <li><p>Git</p></li>
+  <li><p>Python (as a programming language)</p></li>
+  <li><p>Probability/statistics</p></li>
+  <li><p>A/B testing</p></li>
+  <li><p>Traditional ML</p></li>
+  <li><p>ML experiments</p></li>
+  <li><p>Deep learning</p></li>
+  <li><p><b>My addendum:</b> cloud technologies, leadership and communication skills</p></li>
 </ul>  
 
 I really like <a href="https://www.datawithdanny.com/">Danny Ma's</a> approach. There's is nothing I find less productive in a data scienctist than immediately jumping to a fancy library prior analysing the dataset's features. Danny is preaching for the exact opposite: always start from a solid understanding of the data, cool techniques come later.
