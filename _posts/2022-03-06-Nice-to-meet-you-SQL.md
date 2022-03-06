@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Nice to meet you mr SQL!"
-date: 2022-0-06
+date: 2022-03-06
 ---
 
 <img src="/images/SQL.jpg" alt="SQL">
