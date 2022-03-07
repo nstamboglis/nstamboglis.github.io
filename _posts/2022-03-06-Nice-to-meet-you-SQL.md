@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Nice to meet you mr SQL!"
+title: "Nice to meet you SQL!"
 date: 2022-03-06
 ---
 
-<img src="https://github.com/nstamboglis/nstamboglis.github.io/blob/main/_posts/post_images/SQL.png" alt="SQL">
+<img src="post_images/SQL.png" alt="SQL">
 
 **TLDR**: Knowing SQL is a must for data professionals. No point learning advanced techniques without knowing how to extract data. No one is going to extract data for you (or, at least, it is rare to avoid bottlenecks). SQL is a great tool to learn how to *think* in terms of data structures. I personally love subqueries, the functions PARTITION BY, CASE and indexes. Order matters.
 
