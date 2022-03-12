@@ -52,7 +52,7 @@ I love the SQL concept of sub-queries. Essentially via a sub-query the analyst c
 
 
 <code>
--- What is the total amount each customer spent at the restaurant?
+<p>-- What is the total amount each customer spent at the restaurant?</p>
 <p>SELECT </p>
 	<p style="margin-left:5%; margin-right:5%;"> A.customer_id,</p> 
 	<p style="margin-left:5%; margin-right:5%;"> sum(A.expenditure) AS tot_expenditure </p>
@@ -77,7 +77,7 @@ First we extract information on expenditures (internal query), then we compute t
 The case-when function is increadibly useful to use when dealing with special cases, such as customers loyalty schemes weighting products differently, as in the example below: 
 
 <code>
-<p>-- If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?<p>
+<p>-- If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?</p>
 <p>SELECT</p>
 <p style="margin-left:5%; margin-right:5%;"> 	sum(table2.price * table2.score_weights) as total_score,</p>
 <p style="margin-left:5%; margin-right:5%;">     table2.customer_id</p>
@@ -118,7 +118,7 @@ The case-when function is increadibly useful to use when dealing with special ca
 This function is extremely useful to divide the result sets in partitions and to perform computations in each subset of partitioned data. In other words, we take a subset of the data (such as customer's entries) and we perform computations in that specific group of entries (e.g. sales by customer)
 
 <code>
--- What was the first item FROM the menu purchased by each customer?
+<p>-- What was the first item FROM the menu purchased by each customer?</p>
 <p>SELECT customer_id, product_id</p>
 <p>FROM(</p>
 	<p style="margin-left:5%; margin-right:5%;">SELECT row_number() over(</p>
@@ -140,7 +140,7 @@ In the example above it is possible to create a row counter for each row associa
 We can use the partition by trick above to use it as a sort-of-index for our table. This allows us to select the first row associated to a given customer (such as its first order ever). There might be more efficient ways of doing so, but I find indexes quite fun.
 
 <code>
--- What was the first item FROM the menu purchased by each customer?
+<p>-- What was the first item FROM the menu purchased by each customer?</p>
 <p>SELECT customer_id, product_id</p>
 <p>FROM(</p>
 	<p style="margin-left:5%; margin-right:5%;">SELECT row_number() over(</p>
