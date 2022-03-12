@@ -73,87 +73,77 @@ ORDER BY A.customer_id;
 </pre>
 </body>
 
-
-<code>
-<p>-- What is the total amount each customer spent at the restaurant?</p>
-<p>SELECT </p>
-	<p style="margin-left:5%; margin-right:5%;"> A.customer_id,</p> 
-	<p style="margin-left:5%; margin-right:5%;"> sum(A.expenditure) AS tot_expenditure </p>
-<p>FROM(</p>
-	<p style="margin-left:5%; margin-right:5%;"> SELECT</p> 
-		<p style="margin-left:10%; margin-right:5%;"> sales.customer_id, </p>
-		<p style="margin-left:10%; margin-right:5%;"> sales.product_id, </p>
-		<p style="margin-left:10%; margin-right:5%;"> menu.price, </p>
-		<p style="margin-left:10%; margin-right:5%;"> (sales.product_id * menu.price) AS expenditure</p>
-	<p style="margin-left:5%; margin-right:5%;"> FROM dannys_diner.sales</p> 
-	<p style="margin-left:5%; margin-right:5%;"> LEFT JOIN dannys_diner.menu </p> 
-  <p style="margin-left:5%; margin-right:5%;"> ON sales.product_id = menu.product_id</p> 
-<p> ) A</p>
-<p>GROUP BY A.customer_id</p>
-<p>ORDER BY A.customer_id;</p>
-</code>
-
 First we extract information on expenditures (internal query), then we compute the amount each customer spent in total (external query). Love it.
 
 *Case When:*
 
 The case-when function is increadibly useful to use when dealing with special cases, such as customers loyalty schemes weighting products differently, as in the example below: 
 
+<body>
+<pre>
 <code>
-<p>-- If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?</p>
-<p>SELECT</p>
-<p style="margin-left:5%; margin-right:5%;"> 	sum(table2.price * table2.score_weights) as total_score,</p>
-<p style="margin-left:5%; margin-right:5%;">     table2.customer_id</p>
- <p>FROM(</p>
-<p style="margin-left:5%; margin-right:5%;"> 	SELECT </p>
-<p style="margin-left:10%; margin-right:5%;">        table1.customer_id,</p>
-<p style="margin-left:10%; margin-right:5%;">        table1.product_id,</p>
-<p style="margin-left:10%; margin-right:5%;">        table1.order_date,</p>
-<p style="margin-left:10%; margin-right:5%;">        table1.join_date,</p>
-<p style="margin-left:10%; margin-right:5%;">        (table1.order_date - table1.join_date) AS days_FROM_join,</p>
-<p style="margin-left:10%; margin-right:5%;">        menu.product_name,</p>
-<p style="margin-left:10%; margin-right:5%;">        menu.price,</p>
-<p style="margin-left:10%; margin-right:5%;">        CASE </p>
-<p style="margin-left:15%; margin-right:5%;">        	WHEN menu.product_name = 'sushi' then 2</p>
-<p style="margin-left:15%; margin-right:5%;">            ELSE 1 </p>
-<p style="margin-left:10%; margin-right:5%;">        END AS score_weights</p>
-<p style="margin-left:5%; margin-right:5%;">     FROM(</p>
-<p style="margin-left:10%; margin-right:5%;">        SELECT</p>
-<p style="margin-left:15%; margin-right:5%;">            sales.customer_id,</p>
-<p style="margin-left:15%; margin-right:5%;">            sales.product_id,</p>
-<p style="margin-left:15%; margin-right:5%;">            sales.order_date,</p>
-<p style="margin-left:15%; margin-right:5%;">            members.join_date</p>
-<p style="margin-left:10%; margin-right:5%;">        FROM dannys_diner.sales</p>
-<p style="margin-left:10%; margin-right:5%;">        LEFT JOIN dannys_diner.members ON sales.customer_id = members.customer_id</p>
- <p style="margin-left:10%; margin-right:5%;">     ORDER BY sales.order_date DESC</p>
- <p style="margin-left:5%; margin-right:5%;">    ) AS table1</p>
- <p style="margin-left:5%; margin-right:5%;">    LEFT JOIN dannys_diner.</p>menu ON table1.product_id = menu.product_id
-<p>	WHERE (table1.order_date - table1.join_date) >= 0</p>
-<p style="margin-left:5%; margin-right:5%;">     ORDER BY </p>
-<p style="margin-left:10%; margin-right:5%;">        table1.customer_id DESC,</p>
-<p style="margin-left:10%; margin-right:5%;">        table1.order_date asc) AS table2</p>
- <p> GROUP BY table2.customer_id</p>
- <p> ORDER BY total_score desc;</p>
+-- If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+SELECT
+  SUM(table2.price * table2.score_weights) as total_score,
+  table2.customer_id
+FROM(
+  SELECT
+    table1.customer_id,
+    table1.product_id,
+    table1.order_date,
+    table1.join_date,
+    (table1.order_date - table1.join_date) AS days_FROM_join,
+    menu.product_name,
+    menu.price,
+    CASE
+      WHEN menu.product_name = 'sushi' then 2
+      ELSE 1
+    END AS score_weights
+  FROM(
+    SELECT
+      sales.customer_id,
+      sales.product_id,
+      sales.order_date,
+      members.join_date
+    FROM dannys_diner.sales
+    LEFT JOIN dannys_diner.members ON sales.customer_id = members.customer_id
+    ORDER BY sales.order_date DESC
+  ) AS table1
+  LEFT JOIN dannys_diner.menu ON table1.product_id = menu.product_id
+  WHERE (table1.order_date - table1.join_date) >= 0
+  ORDER BY
+  table1.customer_id DESC,
+  table1.order_date asc) AS table2
+GROUP BY table2.customer_id
+ORDER BY total_score desc;
 </code>
+</pre>
+</body>
 
 *Partition by:*
 
 This function is extremely useful to divide the result sets in partitions and to perform computations in each subset of partitioned data. In other words, we take a subset of the data (such as customer's entries) and we perform computations in that specific group of entries (e.g. sales by customer)
 
+<body>
+<pre>
 <code>
-<p>-- What was the first item FROM the menu purchased by each customer?</p>
-<p>SELECT customer_id, product_id</p>
-<p>FROM(</p>
-	<p style="margin-left:5%; margin-right:5%;">SELECT row_number() over(</p>
- 	<p style="margin-left:5%; margin-right:5%;">PARTITION BY sales.customer_id</p>
-  <p style="margin-left:5%; margin-right:5%;">	ORDER BY sales.order_date asc</p>
-  <p style="margin-left:5%; margin-right:5%;">	RANGE BETWEEN </p>
-      <p style="margin-left:5%; margin-right:5%;">	UNBOUNDED PRECEDING AND</p> 
-      <p style="margin-left:5%; margin-right:5%;">	UNBOUNDED FOLLOWING) <p style="margin-left:5%; margin-right:5%;">row_number_ind, </p>
-	<p style="margin-left:5%; margin-right:5%;">sales.customer_id, </p>
-	<p style="margin-left:5%; margin-right:5%;">sales.product_id</p>
-<p>FROM dannys_diner.sales) tab1</p>
-<p>WHERE row_number_ind = 1;</p>
+-- What was the first item FROM the menu purchased by each customer?
+SELECT customer_id, product_id
+FROM(
+  SELECT 
+    row_number() over(
+      PARTITION BY sales.customer_id
+      ORDER BY sales.order_date asc
+      RANGE BETWEEN 
+      UNBOUNDED PRECEDING AND
+      UNBOUNDED FOLLOWING) 
+    row_number_ind,
+    sales.customer_id, 
+    sales.product_id
+FROM dannys_diner.sales) tab1
+WHERE row_number_ind = 1;
+</body>
+</pre>
 </code>
 
 In the example above it is possible to create a row counter for each row associated with a given customer id. This will be quite useful as a trick for the point below.
@@ -162,20 +152,26 @@ In the example above it is possible to create a row counter for each row associa
 
 We can use the partition by trick above to use it as a sort-of-index for our table. This allows us to select the first row associated to a given customer (such as its first order ever). There might be more efficient ways of doing so, but I find indexes quite fun.
 
+<body>
+<pre>
 <code>
-<p>-- What was the first item FROM the menu purchased by each customer?</p>
-<p>SELECT customer_id, product_id</p>
-<p>FROM(</p>
-	<p style="margin-left:5%; margin-right:5%;">SELECT row_number() over(</p>
- 	<p style="margin-left:5%; margin-right:5%;">PARTITION BY sales.customer_id</p>
-  <p style="margin-left:5%; margin-right:5%;">	ORDER BY sales.order_date asc</p>
-  <p style="margin-left:5%; margin-right:5%;">	RANGE BETWEEN </p>
-      <p style="margin-left:5%; margin-right:5%;">	UNBOUNDED PRECEDING AND</p> 
-      <p style="margin-left:5%; margin-right:5%;">	UNBOUNDED FOLLOWING) <p style="margin-left:5%; margin-right:5%;">row_number_ind, </p>
-	<p style="margin-left:5%; margin-right:5%;">sales.customer_id, </p>
-	<p style="margin-left:5%; margin-right:5%;">sales.product_id</p>
-<p>FROM dannys_diner.sales) tab1</p>
-<p>WHERE row_number_ind = 1;</p>
+-- What was the first item FROM the menu purchased by each customer?
+SELECT customer_id, product_id
+FROM(
+  SELECT 
+    row_number() over(
+      PARTITION BY sales.customer_id
+      ORDER BY sales.order_date asc
+      RANGE BETWEEN 
+      UNBOUNDED PRECEDING AND
+      UNBOUNDED FOLLOWING)
+    row_number_ind, 
+    sales.customer_id, 
+    sales.product_id
+FROM dannys_diner.sales) tab1
+WHERE row_number_ind = 1;
+</body>
+</pre>
 </code>
 
 *Bonus point: style & order matter!*
