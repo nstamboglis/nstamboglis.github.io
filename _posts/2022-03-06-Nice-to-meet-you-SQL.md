@@ -51,24 +51,26 @@ Here I share what I loved the most about the learning process and what I think m
 I love the SQL concept of sub-queries. Essentially via a sub-query the analyst can first extract the information he/she wants (in the internal query), to then elaborate it further in a sub-sequent query (the external one), as in the example below:
 
 <body>
-  <pre>
-        <code>
- &lt;!doctype html&gt;
-&lt;html lang="en-US"&gt;
-            &lt;head&gt;
-                &lt;meta charset="utf-8"&gt;                
-                &lt;meta name="generator" content="JSFiddle"&gt;
-                &lt;/body&gt;
-                &lt;meta name="description" content="Displaying your source code on web page."&gt;
-                &lt;meta name="author" content="Anna Medvedeva"&gt;
-            &lt;/head&gt;
-            &lt;body&gt;
-                &lt;h1&gt;Displaying your source code on web page&lt;/h1&gt;
-                &lt;p1&gt;Do you read, write and speak code? Learn how to share your skills!&lt;/p&gt;
-            &lt;/body&gt;
-            &lt;/html&gt;
-        </code>
-    </pre>
+<pre>
+<code>
+-- What is the total amount each customer spent at the restaurant?
+SELECT
+  A.customer_id,
+  sum(A.expenditure) AS tot_expenditure
+FROM(
+  SELECT 
+    sales.customer_id,
+    sales.product_id,
+    menu.price,
+    (sales.product_id * menu.price) AS expenditure
+  FROM dannys_diner.sales 
+  LEFT JOIN dannys_diner.menu 
+  ON sales.product_id = menu.product_id 
+) A
+GROUP BY A.customer_id
+ORDER BY A.customer_id;
+</code>
+</pre>
 </body>
 
 
