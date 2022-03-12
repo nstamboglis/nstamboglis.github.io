@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "8 Weeks SQL Challenge: Week 1"
+title: "Eight Weeks SQL Challenge: Week one"
 date: 2022-03-13
 ---
 
