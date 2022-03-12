@@ -43,7 +43,7 @@ This mindset is great to really understand databases, a skill for life. On the p
 
 **Week 1: no jokes**
 
-Here I share what I've found more useful during the learning process and what I think might be helpful for future use. You can find my complete anwers <a href="https://github.com/nstamboglis/8WeekSQLChallenge/blob/main/DM8WSC_W1.sql">here</a> if you're curious (let me know if you find bugs and/or better ways of solving the use cases!). 
+In the lines below I share what I've found more useful during the learning process and what I think might be helpful for future use. Danny's week one case study can be found <a href="https://8weeksqlchallenge.com/case-study-1/">here</a>. You can find my complete anwers <a href="https://github.com/nstamboglis/8WeekSQLChallenge/blob/main/DM8WSC_W1.sql">here</a> if you're curious (let me know if you find bugs and/or better ways of solving the use cases!). 
 
 *Sub-queries:*
 
