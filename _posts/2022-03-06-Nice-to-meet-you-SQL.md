@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Nice to meet you SQL!"
+title: "8 Weeks SQL Challenge: Week 1"
 date: 2022-03-06
 ---
 
@@ -8,11 +8,11 @@ date: 2022-03-06
 
 **SQL Motivation**
 
-Ok, after flirting with the idea of deep diving into SQL, I've finally made the decision to get started with Danny MA's <a href="https://8weeksqlchallenge.com/">8  Weeks SQL Challenge</a>. The decision was easy (SQL is a key skill), the implementation a bit harder (I just had a 3-months old toddler). 
+Ok, after flirting with the idea of deep diving into SQL, I've finally made the decision to get started with Danny MA's <a href="https://8weeksqlchallenge.com/">8  Weeks SQL Challenge</a>. The decision was easy (SQL is a key skill), the implementation a bit harder (my 3-months old toddler keeps me busy). 
 
 Committing to this challenge was my turning point. Working in small sprints made it happen.
 
-I already know a bit about SQL as I use it professionally at work. So why starting this challenge? Why not jumping straight into deep learning? Two reasons: first, I wanted to move beyond the context-specific problems I'm already solving at work, second, I wanted to boost my confidence and finally state that I know advanced SQL (F-You Impostor Syndrome!).
+I already know a bit about SQL as I use it professionally at work. So why starting this challenge? Why not jumping straight into deep learning? Two reasons: first, I wanted to move beyond the context-specific problems I'm already solving at work, second, I wanted to boost my confidence and finally state that I know advanced SQL.
 
 So, here's how the first week went.
 
@@ -20,11 +20,10 @@ So, here's how the first week went.
 
 Danny is a gourmant (he loves good food). In a few clicks one can enter and explore what his customers' order from the menu. Luckily Danny is also skilled in SQL, which means that information on such tastes is well organised and accessibles. In 7 words: one can learn SQL through real-life examples.
 
-I love the realism of the exercises, good approximation of stakeholders' questions. Also, one can test-drive them in real time in a dedicated environment, which is helpful for effective learning (although <a href="https://dbeaver.io/">DBeaver</a> the error messages are bit clearer).
+All exercises are both relistic and a good approximation of stakeholders' questions. Also, one can test-drive them in real time in a dedicated environment, which is helpful for effective learning (although <a href="https://dbeaver.io/">DBeaver</a> the error messages are bit clearer).
 
 **Anatomy of a query**
-
-I love thinking in SQL terms. The required mindset to use this language effectively is quite different from the data-analysis one. I am trained as an economist, hence when I think about data issues I have a regression-mindset: 
+Thinking in SQL terms is both fun and effective. The required mindset to use this language effectively is quite different from the data-analysis one. I am trained as an economist, hence when I think about data issues I have a regression-like perspective: 
 
 <ul   style="font-size:20px;">
   <li>What explains what?</li>
@@ -40,15 +39,15 @@ When it comes to SQL I find the approach to be rather different. When I SQL (is 
   <li>Which aggregations are needed to summarize my answer effectively?</li>
 </ul>
 
-This mindset is great to really understand databases, a skill for life. On the plus side getting into this mindset greatly helps in communicating with my fellow data engineers, reducing the chances of getting lost in translation.
+This mindset is great to really understand databases, a skill for life. On the plus side developing this point of view greatly helps in communicating with my fellow data engineers, reducing the chances of getting lost in translation.
 
 **Week 1: no jokes**
 
-Here I share what I loved the most about the learning process and what I think might be helpful for future use. You can find my complete anwers <a href="https://github.com/nstamboglis/8WeekSQLChallenge/blob/main/DM8WSC_W1.sql">here</a> if you're curious (let me know if you find bugs and/or better ways of solving the use cases!). 
+Here I share what I've found more useful during the learning process and what I think might be helpful for future use. You can find my complete anwers <a href="https://github.com/nstamboglis/8WeekSQLChallenge/blob/main/DM8WSC_W1.sql">here</a> if you're curious (let me know if you find bugs and/or better ways of solving the use cases!). 
 
 *Sub-queries:*
 
-I love the SQL concept of sub-queries. Essentially via a sub-query the analyst can first extract the information he/she wants (in the internal query), to then elaborate it further in a sub-sequent query (the external one), as in the example below:
+Sub-queries queries are essentially steps to break down the problem at hand. Via a sub-queries the analyst can first extract the information he/she wants (in the internal query), to then elaborate it further in a sub-sequent query (the external one), as in the example below:
 
 <body>
 <pre>
