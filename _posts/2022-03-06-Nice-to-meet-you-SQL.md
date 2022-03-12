@@ -50,7 +50,25 @@ Here I share what I loved the most about the learning process and what I think m
 
 *Sub-queries:*
 
-<code>This is a test</code>
+I love the SQL concept of sub-queries. When addressing one issue we don't need to have to have the whole problem figured out in one go. We can first aleborate the data in its raw format, and then create the computations we look for, as in the example below: 
+
+
+<code>
+SELECT 
+	A.customer_id, 
+	sum(A.expenditure) AS tot_expenditure
+FROM(
+	SELECT 
+		sales.customer_id, 
+		sales.product_id, 
+		menu.price, 
+		(sales.product_id * menu.price) AS expenditure
+	FROM dannys_diner.sales
+	LEFT JOIN dannys_diner.menu ON sales.product_id = menu.product_id
+  ) A
+  GROUP BY A.customer_id
+  ORDER BY A.customer_id;
+</code>
 
 *Partition by:*
 
