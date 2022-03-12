@@ -4,8 +4,6 @@ title: "Nice to meet you SQL!"
 date: 2022-03-06
 ---
 
-<img src="post_images/SQL.png" alt="SQL">
-
 **TLDR**: Knowing SQL is a must for data professionals. No point learning advanced techniques without knowing how to extract data. No one is going to extract data for you (or, at least, it is rare to avoid bottlenecks). SQL is a great tool to learn how to *think* in terms of data structures. I personally love subqueries, the functions PARTITION BY, CASE and indexes. Order matters.
 
 **SQL Motivation**
@@ -50,33 +48,116 @@ Here I share what I loved the most about the learning process and what I think m
 
 *Sub-queries:*
 
-I love the SQL concept of sub-queries. When addressing one issue we don't need to have to have the whole problem figured out in one go. We can first aleborate the data in its raw format, and then create the computations we look for, as in the example below: 
+I love the SQL concept of sub-queries. Essentially via a sub-query the analyst can first extract the information he/she wants (in the internal query), to then elaborate it further in a sub-sequent query (the external one), as in the example below:
 
 
 <code>
-SELECT 
-	A.customer_id, 
-	sum(A.expenditure) AS tot_expenditure
-FROM(
-	SELECT 
-		sales.customer_id, 
-		sales.product_id, 
-		menu.price, 
-		(sales.product_id * menu.price) AS expenditure
-	FROM dannys_diner.sales
-	LEFT JOIN dannys_diner.menu ON sales.product_id = menu.product_id
-  ) A
-  GROUP BY A.customer_id
-  ORDER BY A.customer_id;
+-- What is the total amount each customer spent at the restaurant?
+<p>SELECT </p>
+	<p style="margin-left:5%; margin-right:5%;"> A.customer_id,</p> 
+	<p style="margin-left:5%; margin-right:5%;"> sum(A.expenditure) AS tot_expenditure </p>
+<p>FROM(</p>
+	<p style="margin-left:5%; margin-right:5%;"> SELECT</p> 
+		<p style="margin-left:10%; margin-right:5%;"> sales.customer_id, </p>
+		<p style="margin-left:10%; margin-right:5%;"> sales.product_id, </p>
+		<p style="margin-left:10%; margin-right:5%;"> menu.price, </p>
+		<p style="margin-left:10%; margin-right:5%;"> (sales.product_id * menu.price) AS expenditure</p>
+	<p style="margin-left:5%; margin-right:5%;"> FROM dannys_diner.sales</p> 
+	<p style="margin-left:5%; margin-right:5%;"> LEFT JOIN dannys_diner.menu </p> 
+  <p style="margin-left:5%; margin-right:5%;"> ON sales.product_id = menu.product_id</p> 
+<p> ) A</p>
+<p>GROUP BY A.customer_id</p>
+<p>ORDER BY A.customer_id;</p>
+</code>
+
+First we extract information on expenditures (internal query), then we compute the amount each customer spent in total (external query). Love it.
+
+*Case When:*
+
+The case-when function is increadibly useful to use when dealing with special cases, such as customers loyalty schemes weighting products differently, as in the example below: 
+
+<code>
+<p>-- If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?<p>
+<p>SELECT</p>
+<p style="margin-left:5%; margin-right:5%;"> 	sum(table2.price * table2.score_weights) as total_score,</p>
+<p style="margin-left:5%; margin-right:5%;">     table2.customer_id</p>
+ <p>FROM(</p>
+<p style="margin-left:5%; margin-right:5%;"> 	SELECT </p>
+<p style="margin-left:10%; margin-right:5%;">        table1.customer_id,</p>
+<p style="margin-left:10%; margin-right:5%;">        table1.product_id,</p>
+<p style="margin-left:10%; margin-right:5%;">        table1.order_date,</p>
+<p style="margin-left:10%; margin-right:5%;">        table1.join_date,</p>
+<p style="margin-left:10%; margin-right:5%;">        (table1.order_date - table1.join_date) AS days_FROM_join,</p>
+<p style="margin-left:10%; margin-right:5%;">        menu.product_name,</p>
+<p style="margin-left:10%; margin-right:5%;">        menu.price,</p>
+<p style="margin-left:10%; margin-right:5%;">        CASE </p>
+<p style="margin-left:15%; margin-right:5%;">        	WHEN menu.product_name = 'sushi' then 2</p>
+<p style="margin-left:15%; margin-right:5%;">            ELSE 1 </p>
+<p style="margin-left:10%; margin-right:5%;">        END AS score_weights</p>
+<p style="margin-left:5%; margin-right:5%;">     FROM(</p>
+<p style="margin-left:10%; margin-right:5%;">        SELECT</p>
+<p style="margin-left:15%; margin-right:5%;">            sales.customer_id,</p>
+<p style="margin-left:15%; margin-right:5%;">            sales.product_id,</p>
+<p style="margin-left:15%; margin-right:5%;">            sales.order_date,</p>
+<p style="margin-left:15%; margin-right:5%;">            members.join_date</p>
+<p style="margin-left:10%; margin-right:5%;">        FROM dannys_diner.sales</p>
+<p style="margin-left:10%; margin-right:5%;">        LEFT JOIN dannys_diner.members ON sales.customer_id = members.customer_id</p>
+ <p style="margin-left:10%; margin-right:5%;">     ORDER BY sales.order_date DESC</p>
+ <p style="margin-left:5%; margin-right:5%;">    ) AS table1</p>
+ <p style="margin-left:5%; margin-right:5%;">    LEFT JOIN dannys_diner.</p>menu ON table1.product_id = menu.product_id
+<p>	WHERE (table1.order_date - table1.join_date) >= 0</p>
+<p style="margin-left:5%; margin-right:5%;">     ORDER BY </p>
+<p style="margin-left:10%; margin-right:5%;">        table1.customer_id DESC,</p>
+<p style="margin-left:10%; margin-right:5%;">        table1.order_date asc) AS table2</p>
+ <p> GROUP BY table2.customer_id</p>
+ <p> ORDER BY total_score desc;</p>
 </code>
 
 *Partition by:*
 
-*Case When:*
+This function is extremely useful to divide the result sets in partitions and to perform computations in each subset of partitioned data. In other words, we take a subset of the data (such as customer's entries) and we perform computations in that specific group of entries (e.g. sales by customer)
+
+<code>
+-- What was the first item FROM the menu purchased by each customer?
+<p>SELECT customer_id, product_id</p>
+<p>FROM(</p>
+	<p style="margin-left:5%; margin-right:5%;">SELECT row_number() over(</p>
+ 	<p style="margin-left:5%; margin-right:5%;">PARTITION BY sales.customer_id</p>
+  <p style="margin-left:5%; margin-right:5%;">	ORDER BY sales.order_date asc</p>
+  <p style="margin-left:5%; margin-right:5%;">	RANGE BETWEEN </p>
+      <p style="margin-left:5%; margin-right:5%;">	UNBOUNDED PRECEDING AND</p> 
+      <p style="margin-left:5%; margin-right:5%;">	UNBOUNDED FOLLOWING) <p style="margin-left:5%; margin-right:5%;">row_number_ind, </p>
+	<p style="margin-left:5%; margin-right:5%;">sales.customer_id, </p>
+	<p style="margin-left:5%; margin-right:5%;">sales.product_id</p>
+<p>FROM dannys_diner.sales) tab1</p>
+<p>WHERE row_number_ind = 1;</p>
+</code>
+
+In the example above it is possible to create a row counter for each row associated with a given customer id. This will be quite useful as a trick for the point below.
 
 *Indexes:*
 
+We can use the partition by trick above to use it as a sort-of-index for our table. This allows us to select the first row associated to a given customer (such as its first order ever). There might be more efficient ways of doing so, but I find indexes quite fun.
+
+<code>
+-- What was the first item FROM the menu purchased by each customer?
+<p>SELECT customer_id, product_id</p>
+<p>FROM(</p>
+	<p style="margin-left:5%; margin-right:5%;">SELECT row_number() over(</p>
+ 	<p style="margin-left:5%; margin-right:5%;">PARTITION BY sales.customer_id</p>
+  <p style="margin-left:5%; margin-right:5%;">	ORDER BY sales.order_date asc</p>
+  <p style="margin-left:5%; margin-right:5%;">	RANGE BETWEEN </p>
+      <p style="margin-left:5%; margin-right:5%;">	UNBOUNDED PRECEDING AND</p> 
+      <p style="margin-left:5%; margin-right:5%;">	UNBOUNDED FOLLOWING) <p style="margin-left:5%; margin-right:5%;">row_number_ind, </p>
+	<p style="margin-left:5%; margin-right:5%;">sales.customer_id, </p>
+	<p style="margin-left:5%; margin-right:5%;">sales.product_id</p>
+<p>FROM dannys_diner.sales) tab1</p>
+<p>WHERE row_number_ind = 1;</p>
+</code>
+
 *Bonus point: style & order matter!*
+
+At the end of the day style and order make a huge difference in the quality of a query, but in terms of readibility and in terms of reliability of results. A slight change in the order of the *order by* option in one of the queries above whould have led to completely different results when indexes were involved. Also, I like a *tidy* query where its single elements are clearly identifiable. It will make going back to the exercise much easier, as well as sharing the result with a colleague or a friend. Also, it's a sign of *craftmanship*.
 
 **Next steps**
 
