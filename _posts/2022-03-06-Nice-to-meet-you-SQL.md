@@ -26,7 +26,7 @@ I love the realism of the exercises, good approximation of stakeholders' questio
 
 I love thinking in SQL terms. The required mindset to use this language effectively is quite different from the data-analysis one. I am trained as an economist, hence when I think about data issues I have a regression-mindset: 
 
-<ul>
+<ul   style="font-size:18px;">
   <li>What explains what?</li>
   <li>Where does partial correlation lies?</li>
   <li>How robust the identified partial-correlation is likely to be?</li>
@@ -34,7 +34,7 @@ I love thinking in SQL terms. The required mindset to use this language effectiv
 
 When it comes to SQL I find the approach to be rather different. When I SQL (is it a verb?) I think in terms of nested cubes, or matryoshka dolls. I see the problem at hand and I try to address it in consecutive steps: 
 
-<ul>
+<ul  style="font-size:18px;">
   <li>What data structure would make the problem clearer?</li>
   <li>What features / calculated fields do I need to add to get my answer?</li>
   <li>Which aggregations are needed to summarize my answer effectively?</li>
@@ -52,7 +52,7 @@ I love the SQL concept of sub-queries. Essentially via a sub-query the analyst c
 
 <body>
 <pre>
-<code>
+<code  style="color:darkgrey;font-size:18px;">
 -- What is the total amount each customer spent at the restaurant?
 SELECT
   A.customer_id,
@@ -81,7 +81,7 @@ The case-when function is increadibly useful to use when dealing with special ca
 
 <body>
 <pre>
-<code>
+<code  style="color:darkgrey;font-size:18px;">
 -- If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 SELECT
   SUM(table2.price * table2.score_weights) as total_score,
@@ -126,7 +126,7 @@ This function is extremely useful to divide the result sets in partitions and to
 
 <body>
 <pre>
-<code>
+<code  style="color:darkgrey;font-size:18px;">
 -- What was the first item FROM the menu purchased by each customer?
 SELECT customer_id, product_id
 FROM(
@@ -142,9 +142,9 @@ FROM(
     sales.product_id
 FROM dannys_diner.sales) tab1
 WHERE row_number_ind = 1;
-</body>
-</pre>
 </code>
+</pre>
+</body>
 
 In the example above it is possible to create a row counter for each row associated with a given customer id. This will be quite useful as a trick for the point below.
 
@@ -154,7 +154,7 @@ We can use the partition by trick above to use it as a sort-of-index for our tab
 
 <body>
 <pre>
-<code>
+<code style="color:darkgrey;font-size:18px;">
 -- What was the first item FROM the menu purchased by each customer?
 SELECT customer_id, product_id
 FROM(
@@ -170,9 +170,9 @@ FROM(
     sales.product_id
 FROM dannys_diner.sales) tab1
 WHERE row_number_ind = 1;
-</body>
-</pre>
 </code>
+</pre>
+</body>
 
 *Bonus point: style & order matter!*
 
