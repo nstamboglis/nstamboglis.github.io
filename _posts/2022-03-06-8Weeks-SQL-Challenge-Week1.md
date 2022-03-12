@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "8 Weeks SQL Challenge: Week 1"
-date: 2022-03-06
+date: 2022-03-13
 ---
 
 **TLDR**: Knowing SQL is a must for data professionals. No point learning advanced techniques without knowing how to extract data. No one is going to extract data for you (or, at least, it is rare to avoid bottlenecks). SQL is a great tool to learn how to *think* in terms of data structures. I personally love subqueries, the functions PARTITION BY, CASE and indexes. Order matters.
